@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4690249479441260"
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4690249479441260"
      crossorigin="anonymous"></script><!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -72,7 +73,7 @@ input[type=search]{width:100%;min-height:52px;padding:.8rem 1rem;border:2px soli
 footer{background:var(--tx);color:var(--bg);margin-top:3rem}.fw{max-width:1240px;margin:0 auto;padding:3rem 1.2rem 2rem}.fb{font-size:clamp(3rem,17vw,12rem);font-weight:800;line-height:.85;letter-spacing:-.05em;margin:2.5rem 0 1rem}
 .fg{display:grid;gap:1.6rem}@media(min-width:760px){.fg{grid-template-columns:1.4fr 1fr 1fr 1fr}}.fc{display:flex;flex-direction:column}.fc a{min-height:36px;display:flex;align-items:center;text-decoration:none;opacity:.85}.fc a:hover{opacity:1;text-decoration:underline}.fc b{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem;opacity:.6}
 :focus-visible{outline:3px solid var(--tx);outline-offset:3px}.hero :focus-visible,.pa :focus-visible,footer :focus-visible,.ov :focus-visible{outline-color:var(--ac)}
-.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.js .rv.vis{opacity:1;transform:none}
+.rv,.js .rv,.rv.vis{opacity:1!important;transform:none!important;transition:none!important}
 #toast{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:.7rem 1.2rem;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;font-weight:600}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
 @media print{header,footer,.noprint,.tick,body::before,.dash>.cal,.dt{display:none!important}.pw{display:block}body{background:#fff;color:#000}.rv{opacity:1;transform:none}}
@@ -355,7 +356,7 @@ function cookV(){return doc("Cookie Policy",`<p>YourWeek Fitness does not curren
 function edV(){return pg("Editorial Policy",`<p>Our aim is clear, accurate, practical fitness information for beginners.</p><h3>How content is produced</h3><p>Articles and exercise descriptions are written in our own words to explain widely accepted, general fitness principles. Health-related guidance links to official sources, such as the NHS, where relevant.</p><h3>What it is not</h3><p>Content has not been reviewed by doctors or qualified personal trainers, and the site does not claim otherwise. It does not offer individual medical or training advice.</p><h3>Updates and corrections</h3><p>Articles show when they were last updated. If you spot an error, tell us through the <a href="#contact">Contact page</a> and we will review it.</p><h3>Advertising</h3><p>Any future advertising will be clearly separated from content and will not influence what we write.</p>`)}
 // ---------- app ----------
 function rd(){$("#app").innerHTML=({home:homeV,planner:plannerV,plan:planV,library:libV,privacy:privV,disclaimer:disV,guides:guidesV,article:artV,exercise:exV,about:aboutV,contact:contactV,terms:termsV,cookies:cookV,editorial:edV})[view]();["home","planner","guides","library","about","contact"].forEach(v=>$("#n-"+v)?.classList.toggle("on",v==view||(view=="plan"&&v=="planner")||(view=="article"&&v=="guides")||(view=="exercise"&&v=="library")));rv()}
-function rv(){const e=[...document.querySelectorAll(".rv")];if(!("IntersectionObserver"in window))return e.forEach(x=>x.classList.add("vis"));const o=new IntersectionObserver(l=>l.forEach(y=>{if(y.isIntersecting){y.target.classList.add("vis");o.unobserve(y.target)}}),{threshold:.1});e.forEach(x=>o.observe(x))}
+function rv(){document.querySelectorAll(".rv").forEach(x=>x.classList.add("vis"))}
 let arg="";const PT={home:"Personalised weekly workout timetable",planner:"Workout Planner",plan:"Your week",library:"Exercise Library",guides:"Fitness Guides",about:"About Us",contact:"Contact",privacy:"Privacy Policy",terms:"Terms and Conditions",disclaimer:"Fitness Disclaimer",cookies:"Cookie Policy",editorial:"Editorial Policy"};
 function meta(){const a=ART.find(x=>x.s==arg),e=X[arg],t=view=="article"&&a?a.t:view=="exercise"&&e?e.n:PT[view]||PT.home,d=view=="article"&&a?a.d:view=="exercise"&&e?e.d.slice(0,155):"Build a free weekly workout plan, explore practical fitness guides and browse an exercise library.",m=document.querySelector('meta[name=description]');document.title=t+" | YourWeek Fitness";if(m)m.content=d}
 function route(){const h=location.hash.slice(1)||"home",m=h.match(/^(guide|ex)-(.+)$/);arg=m?m[2]:"";view=m?(m[1]=="guide"?"article":"exercise"):PT[h]?h:"home";if(view=="article"&&!ART.find(a=>a.s==arg)||view=="exercise"&&!X[arg])view="home";if(view=="plan"&&!P)view="planner";$("#hd").classList.remove("open");rd();meta();scrollTo(0,0)}
