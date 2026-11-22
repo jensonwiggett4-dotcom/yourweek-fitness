@@ -28,7 +28,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:va
 .ov{display:none;position:fixed;inset:0;top:calc(env(safe-area-inset-top,0px) + 63px);background:var(--tx);color:var(--bg);padding:1.5rem 1.2rem 3rem;overflow:auto;z-index:29}header.open .ov{display:block}
 .ov nav{max-width:1240px;margin:0 auto}.ov nav a{display:flex;gap:1rem;align-items:baseline;font:800 clamp(2rem,8vw,3.6rem)/1.15 "Avenir Next","Segoe UI",sans-serif;letter-spacing:-.03em;text-decoration:none;border-bottom:1px solid rgba(128,128,128,.4);padding:.5rem 0}.ov small{font:600 .8rem system-ui;opacity:.6}.ov a.on{text-decoration:underline;text-decoration-color:var(--ac);text-decoration-thickness:6px}
 .th{margin-top:1.5rem;background:none;border:2px solid currentColor;color:inherit;border-radius:99px;min-height:44px;padding:0 1.2rem;font:600 1rem system-ui;cursor:pointer}
-.hero{position:relative;min-height:88vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 30%}
+.hero{position:relative;min-height:min(88vh,720px);display:flex;align-items:flex-end;color:#fff;overflow:hidden}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 30%}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.8))}.hs{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:6rem 1.2rem 3rem;width:100%}
 .hero h1{max-width:11ch}.lead{max-width:34rem;font-size:1.15rem;margin-top:1.4rem}.row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem}.hero .btn.o{border-color:#fff;color:#fff}.hero .btn:hover{box-shadow:3px 3px 0 #fff}.tr{font-size:.9rem;opacity:.9}
 .tick{background:var(--ac);color:var(--on);border-block:2px solid var(--tx);overflow:hidden;white-space:nowrap;font:800 1.4rem "Avenir Next","Segoe UI",sans-serif;padding:.8rem 0}.tick div{display:inline-block;animation:mq 30s linear infinite}@keyframes mq{to{transform:translateX(-50%)}}
@@ -73,7 +73,7 @@ input[type=search]{width:100%;min-height:52px;padding:.8rem 1rem;border:2px soli
 footer{background:var(--tx);color:var(--bg);margin-top:3rem}.fw{max-width:1240px;margin:0 auto;padding:3rem 1.2rem 2rem}.fb{font-size:clamp(3rem,17vw,12rem);font-weight:800;line-height:.85;letter-spacing:-.05em;margin:2.5rem 0 1rem}
 .fg{display:grid;gap:1.6rem}@media(min-width:760px){.fg{grid-template-columns:1.4fr 1fr 1fr 1fr}}.fc{display:flex;flex-direction:column}.fc a{min-height:36px;display:flex;align-items:center;text-decoration:none;opacity:.85}.fc a:hover{opacity:1;text-decoration:underline}.fc b{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem;opacity:.6}
 :focus-visible{outline:3px solid var(--tx);outline-offset:3px}.hero :focus-visible,.pa :focus-visible,footer :focus-visible,.ov :focus-visible{outline-color:var(--ac)}
-.rv,.js .rv,.rv.vis{opacity:1!important;transform:none!important;transition:none!important}
+.rv,.js .rv,.rv.vis,.sx,.cbk,.tick{opacity:1!important;visibility:visible!important;transform:none!important;transition:none!important}
 #toast{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:.7rem 1.2rem;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;font-weight:600}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
 @media print{header,footer,.noprint,.tick,body::before,.dash>.cal,.dt{display:none!important}.pw{display:block}body{background:#fff;color:#000}.rv{opacity:1;transform:none}}
@@ -93,9 +93,9 @@ footer{background:var(--tx);color:var(--bg);margin-top:3rem}.fw{max-width:1240px
 <div id="toast" role="status"></div>
 <script>
 const $=s=>document.querySelector(s),D=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-EQ={none:"No equipment",outdoor:"Outdoors",dumbbells:"Dumbbells",bands:"Resistance band",kettlebell:"Kettlebell",bike:"Exercise bike",treadmill:"Treadmill",gym:"Gym equipment"},
+EQ={none:"No equipment",outdoor:"Outdoors",dumbbells:"Dumbbells",bands:"Resistance band",kettlebell:"Kettlebell",bike:"Exercise bike",treadmill:"Treadmill",gym:"Gym equipment",barbell:"Barbell",cable:"Cable machine",machine:"Gym machine",bar:"Pull-up bar",bench:"Weight bench"},
 LV=["","Beginner","Intermediate","Advanced"],
-GEAR=[["dumbbells","Dumbbells"],["bands","Resistance bands"],["mat","Exercise mat"],["kettlebell","Kettlebells"],["bike","Exercise bike"],["treadmill","Treadmill"]];
+GEAR=[["dumbbells","Dumbbells"],["bands","Resistance bands"],["mat","Exercise mat"],["kettlebell","Kettlebells"],["bike","Exercise bike"],["treadmill","Treadmill"],["bar","Pull-up bar"],["bench","Weight bench"]];
 // id|name|pattern|equipment|level|flags(i impact,f floor,o overhead,r run)|prefs|dose|description|alternative
 const RAW=`sq|Bodyweight squat|legs|none|1||SBL|2×10|Feet shoulder-width apart. Sit your hips back and down as if onto a chair, keep your chest up, then stand tall.|gb
 gb|Glute bridge|legs|none|1|f|SBL|2×12|Lie on your back with knees bent. Squeeze your glutes and lift your hips until shoulders, hips and knees line up. Lower slowly.|sq
@@ -198,8 +198,137 @@ ac|Arm circles|mob|none|1||TL|10 each way|Extend your arms and make small circle
 qs|Quad stretch|flex|none|1||TL|30 sec per side|Stand tall, bring your heel toward your glute with knees together. Hold a wall for balance.|hs
 cs|Chest opener stretch|flex|none|1||TL|30 sec|Clasp your hands behind your back and lift them gently while opening your chest.|ac
 hh|Hip circles|mob|none|1||TL|8 each way|Hands on hips, make slow, controlled circles with your pelvis.|ac
-ak|Ankle mobility rock|mob|none|1||TL|10 per side|Half-kneel facing a wall and push your front knee over your toes, keeping your heel down.|hs`;
-const EX=RAW.split("\n").map(r=>{const[id,n,pat,eq,l,f,p,dose,d,alt]=r.split("|");return{id,n,pat,eq,l:+l,f,p,dose,d,alt}}),X=Object.fromEntries(EX.map(e=>[e.id,e]));
+ak|Ankle mobility rock|mob|none|1||TL|10 per side|Half-kneel facing a wall and push your front knee over your toes, keeping your heel down.|hs
+ch1|Decline push-up|push|none|2|f|SB|3×8|Feet raised on a sturdy step, body straight; lower your chest and press up.|pu|ch|sh,tr
+ch2|Dumbbell bench press|push|dumbbells|2|b|S|3×10|Lie on a bench, lower the dumbbells to chest level and press them up.|fp|ch|tr,sh
+ch3|Incline dumbbell press|push|dumbbells|2|b|S|3×10|Bench at a slight incline; press the dumbbells up and slightly together.|ch2|ch|sh,tr
+ch4|Dumbbell chest fly|push|dumbbells|2|b|S|3×12|Lower the dumbbells in wide arcs with soft elbows, then bring them back together.|ch2|ch|sh
+ch5|Incline barbell bench press|push|barbell|3||S|3×8|Press the bar from your upper chest on an incline bench. Use a spotter.|bn|ch|sh,tr
+ch6|Cable chest fly|push|cable|2||S|3×12|Sweep the handles together in front of your chest with a slight elbow bend.|cm|ch|sh
+ch7|Pec deck machine|push|machine|1||S|3×12|Sit tall and bring the pads together in front of you, then return slowly.|cm|ch|sh
+ch8|Archer push-up|push|none|3|f|SB|3×5 per side|Hands wide; shift your weight over one arm while the other stays straight.|pu|ch|tr,sh
+ba1|Pull-up|pull|bar|3||S|3×5|Hang with an overhand grip, pull your chin over the bar, then lower slowly.|lp|ba|bi,fa
+ba2|Chin-up|pull|bar|2||S|3×6|Underhand grip; pull your chest toward the bar and lower with control.|ba1|ba|bi
+ba3|Assisted pull-up machine|pull|machine|1||S|3×8|Kneel on the pad to reduce your bodyweight and pull up with control.|lp|ba|bi
+ba4|Barbell bent-over row|pull|barbell|3||S|3×8|Hinge with a flat back and row the bar to your lower ribs.|dr|ba|bi,ha
+ba5|Single-arm cable row|pull|cable|2||S|3×10 per side|Pull the handle to your hip while keeping your torso still.|sr|ba|bi
+ba6|T-bar row|pull|machine|2||S|3×10|Supported or hinged, row the handles toward your torso.|sr|ba|bi
+ba7|Straight-arm cable pulldown|pull|cable|2||S|3×12|Arms nearly straight, sweep the bar down to your thighs.|lp|ba|co
+ba8|Seated machine row|pull|machine|1||S|3×10|Chest against the pad; pull the handles back and squeeze your shoulder blades.|sr|ba|bi
+ba9|Inverted row|pull|barbell|2||SB|3×8|Hang under a low bar with a straight body and pull your chest to it.|ty|ba|bi
+sh1|Dumbbell front raise|push|dumbbells|1||S|2×12|Raise the dumbbells in front to shoulder height, then lower slowly.|lt|sh|ch
+sh2|Seated dumbbell shoulder press|push|dumbbells|2|ob|S|3×10|Seated with back support, press the dumbbells overhead.|dp|sh|tr
+sh3|Pike push-up|push|none|3|fo|SB|3×6|Hips high in an upside-down V; bend your elbows to lower your head, then press.|pu|sh|tr
+sh4|Barbell push press|push|barbell|3|io|S|3×6|Dip slightly with your knees and drive the bar overhead.|oh|sh|tr,qu
+sh5|Cable lateral raise|push|cable|2||S|3×12 per side|Raise the handle out to the side to shoulder height with a soft elbow.|lt|sh|
+sh6|Reverse pec deck|pull|machine|1||S|3×12|Open your arms backward with a slight elbow bend to work the rear shoulders.|bp|sh|ba
+sh7|Band lateral raise|push|bands|1||S|2×15|Stand on the band and raise your hands out to shoulder height.|lt|sh|
+sh8|Dumbbell upright row|pull|dumbbells|2||S|3×10|Lift the dumbbells along your body to chest height, elbows leading.|lt|sh|bi
+bi1|Hammer curl|pull|dumbbells|1||S|3×10|Palms facing each other; curl the dumbbells up without swinging.|cu|bi|fa
+bi2|Incline dumbbell curl|pull|dumbbells|2|b|S|3×10|Sit back on an incline bench and curl, keeping your upper arms still.|cu|bi|
+bi3|Barbell curl|pull|barbell|2||S|3×10|Stand tall and curl the bar to your chest, elbows by your sides.|cu|bi|fa
+bi4|Preacher curl machine|pull|machine|2||S|3×10|Rest your arms on the pad, curl smoothly and lower fully under control.|cu|bi|
+bi5|Concentration curl|pull|dumbbells|1||S|2×12 per side|Seated with your elbow braced on your inner thigh, curl slowly.|cu|bi|
+bi6|Band hammer curl|pull|bands|1||S|3×12|Stand on the band and curl with palms facing each other.|bq|bi|fa
+bi7|Cable rope hammer curl|pull|cable|2||S|3×12|Curl the rope with palms facing in, keeping your elbows still.|ub|bi|fa
+tr1|Close-grip push-up|push|none|2|f|SB|3×8|Hands under your chest and elbows tucked; lower and press up.|pu|tr|ch
+tr2|Bench dip|push|none|2||SB|3×8|Hands on a bench behind you; bend your elbows to lower, then press.|tp|tr|sh
+tr3|Dumbbell skull crusher|push|dumbbells|2|b|S|3×10|Lying on a bench, lower the dumbbells toward your forehead and extend.|tp|tr|
+tr4|Overhead cable triceps extension|push|cable|2|o|S|3×12|Face away from the cable, extend your arms overhead and return slowly.|tb|tr|
+tr5|Dumbbell kickback|push|dumbbells|1||S|2×12 per side|Hinge forward with your upper arm fixed, straighten your elbow and lower slowly.|tp|tr|
+tr6|Close-grip bench press|push|barbell|3||S|3×8|Hands shoulder-width on the bar; lower to your chest and press with elbows close.|bn|tr|ch
+tr7|Rope triceps pushdown|push|cable|1||S|3×12|Push the rope down and spread the ends at the bottom.|tb|tr|
+tr8|Band triceps pushdown|push|bands|1||S|3×15|Anchor the band high and press your hands down by your thighs.|tb|tr|
+fa1|Wrist curl|pull|dumbbells|1||S|2×15|Forearms on your thighs, palms up; curl the weight with your wrists.|cu|fa|
+fa2|Reverse wrist curl|pull|dumbbells|1||S|2×15|Palms down; lift the weight by extending your wrists.|fa1|fa|
+fa3|Dead hang|pull|bar|1||S|3×20 sec|Hang from a bar with a firm grip and relaxed shoulders.|fl|fa|ba
+fa4|Reverse barbell curl|pull|barbell|2||S|3×10|Overhand grip curl with a controlled lowering.|bi3|fa|bi
+fa5|Plate pinch hold|pull|gym|1||S|3×20 sec|Pinch a weight plate between your fingers and thumb and hold.|fl|fa|
+fa6|Suitcase carry|full|dumbbells|1||S|3×30 sec per side|Carry a weight in one hand while staying upright.|fl|fa|co
+fa7|Band finger extension|pull|bands|1||S|2×15|Open your fingers against a small band to balance grip work.|fa2|fa|
+co1|Crunch|core|none|1|f|SBL|2×15|Lift your shoulders off the floor with hands light behind your head, then lower.|db|co|
+co2|Russian twist|core|none|2|f|SB|3×12 per side|Lean back slightly and rotate your torso from side to side.|bc|co|
+co3|Hanging knee raise|core|bar|2||S|3×10|Hang from a bar and lift your knees toward your chest without swinging.|lr|co|fa
+co4|Cable woodchop|core|cable|2||S|3×10 per side|Rotate your torso and pull the cable diagonally across your body.|pr|co|sh
+co5|Ab wheel rollout|core|gym|3|f|S|3×8|Roll forward with a braced core, then pull back using your abs.|pl|co|sh
+co6|Reverse crunch|core|none|1|f|SBL|2×12|Curl your hips off the floor by drawing your knees in.|lr|co|
+co7|Plank shoulder tap|core|none|2|f|SB|3×10 per side|Hold a high plank and tap alternate shoulders without rocking.|pl|co|sh
+co8|Cable crunch|core|cable|2||S|3×12|Kneel and crunch down, bringing your elbows toward your knees.|co1|co|
+co9|Heel tap|core|none|1|f|SBL|2×15 per side|Lie with knees bent and reach side to side to tap your heels.|co1|co|
+qu1|Barbell front squat|legs|barbell|3||S|3×6|Bar across your front shoulders; squat with an upright torso.|bb|qu|co,gl
+qu2|Smith machine squat|legs|machine|1||S|3×10|Feet slightly forward; lower under control and stand.|lg|qu|gl
+qu3|Bulgarian split squat|legs|dumbbells|3|b|S|3×8 per side|Back foot on a bench; lower straight down and stand.|lu|qu|gl
+qu4|Hack squat machine|legs|machine|2||S|3×10|Lower until your thighs are parallel, then press back up.|lg|qu|gl
+qu5|Dumbbell step-up|legs|dumbbells|2||S|3×8 per side|Step onto a box holding dumbbells and stand tall.|su|qu|gl
+qu6|Heel-elevated goblet squat|legs|dumbbells|2||S|3×10|Heels on small plates; squat upright to load the front of the thighs.|gs|qu|
+qu7|Jump squat|legs|none|3|i|B|3×8|Squat, then jump and land softly with bent knees.|sq|qu|gl,ca
+qu8|Box squat|legs|barbell|2||S|3×8|Sit back to a box, pause lightly, then stand.|bb|qu|gl
+qu9|Pistol squat to box|legs|none|3||SB|3×5 per side|Lower on one leg to a box and stand using the same leg.|lu|qu|gl
+ha1|Barbell Romanian deadlift|legs|barbell|2||S|3×8|Push your hips back with soft knees, bar close to your legs, then stand.|dl|ha|gl
+ha2|Slider leg curl|legs|none|2|f|SB|3×8|On your back with heels on towels, slide out and curl back.|gb|ha|gl
+ha3|Seated leg curl machine|legs|machine|1||S|3×12|Curl your heels under you smoothly and return slowly.|lc|ha|
+ha4|Single-leg Romanian deadlift|legs|dumbbells|2||S|3×8 per side|Hinge on one leg with a flat back and square hips.|dl|ha|gl,co
+ha5|Stiff-leg deadlift|legs|barbell|3||S|3×8|Keep your legs nearly straight and hinge until your hamstrings stretch.|dd|ha|gl,ba
+ha6|Band hamstring curl|legs|bands|1|f|S|3×12|Lying face down with the band round your heels, curl your heels up.|gb|ha|
+ha7|Cable pull-through|legs|cable|2||S|3×12|Hinge, then drive your hips forward against the cable between your legs.|dl|ha|gl
+ha8|Barbell good morning|legs|barbell|3||S|3×8|Bar on your back; hinge forward with a flat back, then stand.|bg|ha|gl
+ha9|Hamstring walkout|legs|none|2|f|SB|3×6|From a bridge, walk your heels out and back keeping your hips high.|gb|ha|gl
+gl1|Frog pump|legs|none|1|f|SBL|3×15|Soles of your feet together and knees out; lift your hips and squeeze.|gb|gl|
+gl2|Barbell hip thrust|legs|barbell|2|b|S|3×8|Upper back on a bench, drive the bar up with your hips.|hp|gl|ha
+gl3|Cable glute kickback|legs|cable|2||S|3×12 per side|Extend one leg back against the cable without arching your back.|hp|gl|
+gl4|Donkey kick|legs|none|1|f|SBL|2×12 per side|On hands and knees, lift one bent leg toward the ceiling.|gb|gl|
+gl5|Fire hydrant|legs|none|1|f|SBL|2×12 per side|On hands and knees, lift your bent knee out to the side.|gl4|gl|
+gl6|Dumbbell sumo squat|legs|dumbbells|1||S|3×10|Wide stance with toes out; hold a dumbbell and squat between your legs.|gs|gl|qu
+gl7|Banded lateral walk|legs|bands|1||S|3×12 steps each way|Band above your knees; take small side steps in a slight squat.|bs|gl|
+gl8|Glute bridge march|legs|none|2|f|SB|3×8 per side|Hold a bridge and lift one knee at a time without dropping your hips.|gb|gl|co
+gl9|Machine hip abduction|legs|machine|1||S|3×15|Push your knees out against the pads, then return slowly.|lg|gl|
+gl10|Curtsy lunge|legs|none|2||SB|2×8 per side|Step one leg behind and across, lowering both knees.|rl|gl|qu
+ca1|Single-leg calf raise|legs|none|2||SB|3×12 per side|Stand on one foot near a wall and rise onto your toes slowly.|cr|ca|
+ca2|Standing calf raise machine|legs|machine|1||S|3×12|Rise fully onto the balls of your feet and lower below the step.|cr|ca|
+ca3|Seated calf raise|legs|machine|1||S|3×15|With knees bent, press through the balls of your feet and lower slowly.|ca2|ca|
+ca4|Dumbbell calf raise|legs|dumbbells|1||S|3×15|Hold dumbbells at your sides and perform slow calf raises.|cr|ca|
+ca5|Pogo hop|legs|none|2|i|B|3×20 sec|Hop lightly using your ankles with straight knees.|cr|ca|
+ca6|Tibialis raise|legs|none|1||SB|2×15|Lean against a wall and lift your toes toward your shins.|cr|ca|
+ca7|Leg press calf raise|legs|machine|1||S|3×15|On the leg press, push through the balls of your feet and return slowly.|lg|ca|
+ca8|Band calf raise|legs|bands|1||S|3×15|Seated with the band under your forefoot, point your toes against it.|cr|ca|
+fu1|Dumbbell squat to press|full|dumbbells|2|o|S|3×8|Squat with dumbbells at your shoulders and press overhead as you stand.|dt|fu|sh,qu
+fu2|Dumbbell snatch|full|dumbbells|3|io|S|3×6 per side|Pull the dumbbell from the floor overhead in one smooth motion.|ks|fu|sh,gl
+fu3|Kettlebell clean|full|kettlebell|3||S|3×6 per side|Pull the kettlebell up to rest at your shoulder in one motion.|ks|fu|ba
+fu4|Kettlebell Turkish get-up|full|kettlebell|3|f|S|2×3 per side|Rise slowly from the floor to standing, keeping the weight overhead.|ks|fu|co
+fu5|Medicine ball slam|full|gym|2|i|G|3×10|Lift the ball overhead and slam it down hard.|bu|fu|co
+fu6|Sled push|full|gym|2||G|4×20 m|Drive a weighted sled forward with a strong leg push.|fl|fu|qu
+fu7|Battle rope waves|full|gym|2||G|4×20 sec|Alternate arms to make waves in the rope.|ks|fu|sh
+fu8|Squat thrust|full|none|2|fi|BG|3×10|Drop your hands, kick your feet back to a plank, return and stand.|bu|fu|
+fu9|Barbell clean and press|full|barbell|3|io|S|3×5|Clean the bar to your shoulders, then press it overhead.|oh|fu|
+fu10|Walkout to push-up|full|none|2|f|SB|3×6|Walk your hands out, do a push-up, then walk back.|ib|fu|ch
+cv1|Rowing intervals|cardio|gym|3||G|{m} min|Alternate 1 minute of hard rowing with 2 minutes easy.|rr|cv|
+cv2|Spin bike hill climb|cardio|bike|2||CG|{m} min|Add resistance and ride seated or standing as if climbing.|bk|cv|
+cv3|Treadmill hill walk|cardio|treadmill|1||WGL|{m} min|Walk at a steep incline with an upright posture.|tm|cv|
+cv4|Tempo run|cardio|outdoor|3|ir|RG|{m} min|Hold a steady, comfortably hard pace.|jg|cv|
+cv5|Fartlek run|cardio|outdoor|2|ir|RG|{m} min|Mix short faster efforts with easy running as you feel.|jg|cv|
+cv6|Power walk|cardio|outdoor|1||WGL|{m} min|Walk with a faster arm drive and a longer stride.|bw|cv|
+cv7|Stair intervals|cardio|outdoor|3|i|G|{m} min|Climb stairs quickly and walk down to recover.|hk|cv|
+cv8|Cross trainer intervals|cardio|gym|2||GL|{m} min|Alternate harder and easier resistance every minute.|el|cv|
+cv9|Dance cardio|cardio|none|1||GL|{m} min|Follow a rhythm you enjoy, moving your whole body.|mo|cv|
+cv10|High-knee run|cardio|none|2|i|G|{m} min|Run on the spot with high knees and quick arms.|jj|cv|
+mb1|Cossack squat stretch|mob|none|2||TY|6 per side|Shift side to side in a wide squat, keeping the straight leg stretched.|wg|mb|qu,gl
+mb2|90/90 hip switch|mob|none|1|f|TL|8 per side|Sit with knees bent at right angles and rotate them side to side.|hf|mb|gl
+mb3|Band shoulder pass-through|mob|bands|1||T|10|Hold the band wide and move it over your head and behind you.|ac|mb|sh
+mb4|Thread the needle|mob|none|1|f|TYL|8 per side|From hands and knees, reach one arm under your body and rotate.|tr|mb|ba
+mb5|Deep squat hold|mob|none|1||TY|3×30 sec|Hold a comfortable deep squat with heels down and chest tall.|sq|mb|qu
+mb6|Standing side bend|flex|none|1||TL|8 per side|Reach one arm overhead and lean gently to the side.|cs|mb|co
+mb7|Spinal twist stretch|flex|none|1|f|TYL|30 sec per side|Lie on your back and let your knees fall to one side.|fo|mb|co
+mb8|Butterfly stretch|flex|none|1|f|TYL|30 sec|Sit with soles together and let your knees drop gently.|fo|mb|gl
+mb9|Triceps overhead stretch|flex|none|1||TL|30 sec per side|Reach an elbow overhead and gently press it back with your other hand.|cs|mb|tr
+mb10|Wrist circles and stretches|mob|none|1||TL|10 each way|Circle your wrists and gently stretch your palms and fingers.|ac|mb|fa
+mb11|Lizard pose|flex|none|2|f|TY|30 sec per side|Step into a low lunge and place your hands inside your front foot.|hf|mb|gl
+mb12|Happy baby pose|flex|none|1|f|TYL|45 sec|On your back, hold your feet with knees open and rock gently.|cd|mb|gl`;
+const MG={ch:"Chest",ba:"Back",sh:"Shoulders",bi:"Biceps",tr:"Triceps",fa:"Forearms",co:"Abs and core",qu:"Quadriceps",ha:"Hamstrings",gl:"Glutes",ca:"Calves",fu:"Full body",cv:"Cardio",mb:"Mobility and flexibility"};
+function guess(n,pat){const t=n.toLowerCase();if(pat=="cardio")return"cv";if(pat=="mob"||pat=="flex")return"mb";if(pat=="core")return"co";if(pat=="full")return"fu";
+if(pat=="push")return/tricep|dip|diamond/.test(t)?"tr":/chest|push-up|bench|floor press/.test(t)?"ch":/shoulder|overhead|arnold|lateral|pike|kettlebell press/.test(t)?"sh":"ch";
+if(pat=="pull")return/curl/.test(t)?"bi":/face pull|pull-apart/.test(t)?"sh":"ba";
+return/calf/.test(t)?"ca":/glute|bridge|thrust/.test(t)?"gl":/deadlift|romanian|leg curl|good morning/.test(t)?"ha":"qu"}
+const EX=RAW.split("\n").map(r=>{const[id,n,pat,eq,l,f,p,dose,d,alt,mg,sec]=r.split("|");return{id,n,pat,eq,l:+l,f,p,dose,d,alt,mg:mg||guess(n,pat),sec:sec?sec.split(","):[],home:!["barbell","cable","machine","gym"].includes(eq)}}),X=Object.fromEntries(EX.map(e=>[e.id,e]));
 const ld=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 const th=ld("yw_th");document.documentElement.dataset.theme=th||"dark";
 let A=ld("yw_ans")||{goals:[],lvl:0,days:[],dur:0,loc:"",gear:[],prefs:[],avoid:[],med:false},P=ld("yw_plan"),step=0,view="home",op={},swapMode=false,swapSel=null,lc="all",blocked=false;
@@ -212,15 +341,16 @@ const ST=[
 {k:"prefs",q:"What types of exercise do you enjoy?",m:1,opt:1,o:[["S","Strength exercises"],["W","Walking"],["R","Running"],["C","Cycling"],["B","Bodyweight exercises"],["T","Stretching"],["Y","Yoga"],["L","Low-impact exercise"],["G","General cardio"]]},
 {k:"avoid",q:"Is there anything you need to avoid?",m:1,opt:1,o:[["i","Jumping or high-impact moves"],["f","Getting down on the floor"],["o","Overhead movements"],["r","Running"]]}];
 // ---------- engine ----------
-function avail(a){const s=new Set(["none"]);if(a.loc=="home1")a.gear.forEach(x=>s.add(x));if(a.loc=="gym"||a.loc=="mix")["dumbbells","bands","kettlebell","bike","treadmill","gym"].forEach(x=>s.add(x));if(["out","mix","gym"].includes(a.loc))s.add("outdoor");return s}
-function pick(a,pats,day,used){const A=avail(a),Q=a.prefs.filter(x=>x!="L"),c0=EX.filter(e=>pats.includes(e.pat)&&A.has(e.eq)&&e.l<=a.lvl&&!day.includes(e.id)&&!a.avoid.some(x=>e.f.includes(x)));if(!c0.length)return null;
-const m=c0.filter(e=>[...e.p].some(x=>Q.includes(x))),c=m.length?m:c0;
-return c.map(e=>[[...e.p].filter(x=>Q.includes(x)).length*2+(e.l==a.lvl?1:0)+(e.eq!="none"&&e.eq!="outdoor"&&a.loc!="home0"&&a.loc!="out"?3:0)-(used[e.id]||0)*3+Math.random(),e]).sort((x,y)=>y[0]-x[0])[0][1]}
+function avail(a){const s=new Set(["none"]);if(a.loc=="home1")a.gear.forEach(x=>s.add(x));if(a.loc=="gym"||a.loc=="mix")["dumbbells","bands","kettlebell","bike","treadmill","gym","barbell","cable","machine","bar","bench"].forEach(x=>s.add(x));if(["out","mix","gym"].includes(a.loc))s.add("outdoor");return s}
+function pick(a,pats,day,used){const A=avail(a),Q=a.prefs.filter(x=>x!="L"),dm=day.map(i=>X[i].mg),c0=EX.filter(e=>pats.includes(e.pat)&&A.has(e.eq)&&(!e.f.includes("b")||A.has("bench"))&&e.l<=a.lvl&&!day.includes(e.id)&&!a.avoid.some(x=>e.f.includes(x)));if(!c0.length)return null;
+const m=c0.filter(e=>[...e.p].some(x=>Q.includes(x))),c=m.length?m:c0,
+sc=c.map(e=>[[...e.p].filter(x=>Q.includes(x)).length*2+(e.l==a.lvl?1:0)+(e.eq!="none"&&e.eq!="outdoor"&&a.loc!="home0"&&a.loc!="out"?3:0)-(used[e.id]||0)*3-(dm.includes(e.mg)?2:0)+Math.random()*2,e]).sort((x,y)=>y[0]-x[0]),
+top=sc.filter(x=>x[0]>=sc[0][0]-2.5).slice(0,6);return top[Math.floor(Math.random()*top.length)][1]}
 const eqWord=a=>{const g=a.gear;return a.loc=="gym"||a.loc=="mix"?(a.lvl>1?"Barbell & machine":"Machine & dumbbell"):a.loc=="home1"?(g.includes("dumbbells")?"Dumbbell":g.includes("kettlebell")?"Kettlebell":g.includes("bands")?"Band":"Bodyweight"):a.loc=="out"?"Outdoor bodyweight":"Bodyweight"};
 function ttl(s,a){const w=eqWord(a),l=s.ex.length&&X[s.ex[s.ex.length-1].id],f=s.ex.length&&X[s.ex[0].id];return({full:w+" full-body",upper:w+" upper body",lower:w+" lower body",hybrid:"Strength & cardio hybrid",cardio:f?f.n+(s.ex.length>1&&l.pat=="core"?" + core":""):"Cardio session",mob:"Mobility and flexibility",opt:"Optional gentle activity"})[s.t]}
 function build(a,t,dur,used){const w=dur<=15?2:dur<=30?3:5,c=dur<=15?1:2,m=dur-w-c,day=[],ex=[],S=["legs","push","pull","core","full"],gym=a.loc=="gym"||a.loc=="mix",n=(x,lo,hi)=>Math.max(lo,Math.min(hi,Math.round(x))),
 add=(p,fb,min)=>{const e=pick(a,[p],day,used)||pick(a,fb,day,used);if(e){day.push(e.id);used[e.id]=(used[e.id]||0)+1;ex.push({id:e.id,m:min})}},lift=(o,k)=>{for(let i=0;i<k;i++)add(o[i%o.length],S)};
-if(t=="full")lift(["legs","push","pull","core","legs","push","pull"],n(m/(gym?5:6),2,gym?7:6));
+if(t=="full")lift(["legs","push","pull",Math.random()<.5?"full":"core","core","legs","push"],n(m/(gym?5:6),2,gym?7:6));
 else if(t=="upper")lift(["push","pull","push","pull","core","push"],n(m/5,2,6));
 else if(t=="lower")lift(["legs","legs","legs","core","legs","core"],n(m/5,2,6));
 else if(t=="hybrid"){const sm=Math.round(m*.6);lift(["legs","push","pull","core"],n(sm/5,2,5));add("cardio",["cardio"],Math.max(5,m-sm))}
@@ -288,9 +418,9 @@ return`<section class="dash"><p class="kick">Your week</p><h1>${ac.length} sessi
 <div class="dt">${detail(P.days[sd],sd)}</div>
 <div class="pw">${P.days.map(d=>`<h3>${d.d}: ${d.t=="rest"?(d.rec?"Recovery day":"Rest day"):TT(d,P.a)+" ("+d.mins+" min)"}</h3><p>${(d.ex||[]).map(x=>X[x.id].n+" – "+dose(X[x.id],x.m)).join("; ")}</p>`).join("")}<p>General fitness information only, not medical advice.</p></div>
 <p class="mu sm noprint" style="margin-top:2rem">General fitness information only, not medical advice. Stop if anything hurts.</p></section>`}
-const CATS=[["all","All"],["str","Strength"],["car","Cardio"],["mob","Mobility and flexibility"],["core","Core"],["bw","Bodyweight"],["gym","Gym"],["low","Low-impact"]];
-function libList(){const q=($("#q")?.value||"").toLowerCase(),f={all:()=>1,str:e=>["legs","push","pull","core","full"].includes(e.pat),car:e=>e.pat=="cardio",mob:e=>["mob","flex"].includes(e.pat),core:e=>e.pat=="core",bw:e=>e.eq=="none"&&!["cardio","mob","flex"].includes(e.pat),gym:e=>e.eq=="gym",low:e=>!e.f.includes("i")}[lc],r=EX.filter(e=>f(e)&&(e.n+e.d).toLowerCase().includes(q));
-return r.length?r.map((e,i)=>`<a class="lr" href="#ex-${e.id}"><span class="ix">${String(i+1).padStart(2,"0")}</span><b>${e.n}</b><span>${PL[e.pat]}</span><span>${EQ[e.eq]}</span><span>${LV[e.l]}</span></a>`).join(""):`<div style="padding:2rem 0"><h3>No exercises match</h3><p class="mu">Try a different search or category.</p><button class="btn s" data-act="cat" data-v="all">Show all exercises</button></div>`}
+const CATS=[["all","All"],["str","Strength"],["car","Cardio"],["mob","Mobility and flexibility"],["core","Core"],["bw","Bodyweight"],["gym","Gym"],["low","Low-impact"],...Object.entries(MG).map(([k,v])=>[k,v])];
+function libList(){const q=($("#q")?.value||"").toLowerCase(),f={all:()=>1,str:e=>["legs","push","pull","core","full"].includes(e.pat),car:e=>e.pat=="cardio",mob:e=>["mob","flex"].includes(e.pat),core:e=>e.pat=="core",bw:e=>e.eq=="none"&&!["cardio","mob","flex"].includes(e.pat),gym:e=>e.eq=="gym",low:e=>!e.f.includes("i")}[lc]||(e=>e.mg==lc),r=EX.filter(e=>f(e)&&(e.n+e.d).toLowerCase().includes(q));
+return r.length?r.map((e,i)=>`<a class="lr" href="#ex-${e.id}"><span class="ix">${String(i+1).padStart(2,"0")}</span><b>${e.n}</b><span>${MG[e.mg]}</span><span>${EQ[e.eq]}</span><span>${LV[e.l]}</span></a>`).join(""):`<div style="padding:2rem 0"><h3>No exercises match</h3><p class="mu">Try a different search or category.</p><button class="btn s" data-act="cat" data-v="all">Show all exercises</button></div>`}
 const catsH=()=>CATS.map(c=>`<button class="cf${lc==c[0]?" on":""}" data-act="cat" data-v="${c[0]}">${c[1]}</button>`).join("");
 function libV(){return`<section class="lb"><p class="kick">Exercise library</p><h1>${EX.length} exercises. Find yours.</h1><div class="lg"><aside class="fl2"><input type="search" id="q" placeholder="Search exercises" aria-label="Search exercises"><div class="cl" id="cats">${catsH()}</div></aside><div id="lst">${libList()}</div></div></section>`}
 const doc=(t,b)=>`<div class="dc"><aside><p class="kick">YourWeek Fitness</p><h1>${t}</h1><p class="mu sm">Last updated: 20 November 2026</p></aside><div class="prose">${b}</div></div>`;
@@ -347,7 +477,7 @@ const crumb=(...p)=>`<nav class="mu sm" aria-label="Breadcrumb"><a href="#home">
 function guidesV(){const f=ART[0],o=ART.slice(1);return`<section class="lb"><p class="kick">Fitness guides</p><h1>Practical reading for your week.</h1><p class="lead" style="color:var(--mu)">Plain-English articles on planning, strength, recovery and building a routine.</p><div style="margin-top:2rem"><a class="ft" href="#guide-${f.s}"><span class="kick">${f.cat} · ${f.min} min read</span><h3>${f.t}</h3><p>${f.d}</p><b>Read the guide →</b></a>${o.map(a=>`<a class="al" href="#guide-${a.s}"><div><span class="kick">${a.cat} · ${a.min} min read</span><h3>${a.t}</h3><p class="mu">${a.d}</p></div><span>→</span></a>`).join("")}</div></section>`}
 function artV(){const a=ART.find(x=>x.s==arg),r=ART.filter(x=>x!=a),toc=[];let n=0;const b=a.b.replace(/<h2>(.*?)<\/h2>/g,(m,t)=>{const id="s"+(++n);toc.push([id,t]);return`<h2 id="${id}">${t}</h2>`});
 return`<article class="ar"><header class="ah">${crumb('<a href="#guides">Guides</a>',a.cat)}<p class="kick">${a.cat}</p><h1>${a.t}</h1><p class="dk2">${a.d}</p><p class="mu sm" style="margin-top:1rem">${a.min} min read · Updated November 2026</p></header><div class="ab"><aside class="toc noprint"><p class="kick">In this article</p>${toc.map(t=>`<button data-act="jump" data-v="${t[0]}">${t[1]}</button>`).join("")}</aside><div><div class="prose">${b}</div>${a.r?`<p class="kick" style="margin-top:2rem">Sources and further reading</p><p class="sm">${a.r}: official guidance for adults aged 19 to 64.</p>`:""}<p class="mu sm" style="margin-top:2rem">General educational information, not medical advice. See our <a href="#disclaimer">Fitness Disclaimer</a> and <a href="#editorial">Editorial Policy</a>.</p><p class="kick" style="margin-top:3rem">Keep reading</p>${r.map(x=>`<a class="al" href="#guide-${x.s}"><div><h3>${x.t}</h3><p class="mu">${x.d}</p></div><span>→</span></a>`).join("")}</div></div></article>`}
-function exV(){const e=X[arg],al=X[e.alt];return`<article class="ar">${crumb('<a href="#library">Exercise Library</a>',e.n)}<header class="ah"><p class="kick">${PL[e.pat]}</p><h1>${e.n}</h1></header><div class="ab"><aside><dl class="dl"><dt>Muscle group</dt><dd>${PL[e.pat]}</dd><dt>Equipment</dt><dd>${EQ[e.eq]}</dd><dt>Level</dt><dd>${LV[e.l]}</dd><dt>Suggested</dt><dd>${dose(e)}</dd></dl></aside><div class="prose"><h2>How to do it</h2><p>${e.d}</p><p>Move with control, breathe steadily, and stop if anything hurts.</p><h2>Common mistakes</h2><ul>${MIS[e.pat].map(m=>`<li>${m}</li>`).join("")}</ul>${al?`<h2>Alternative</h2><p><a href="#ex-${al.id}">${al.n}</a> is a good alternative if this feels too hard, or if you want some variety.</p>`:""}<p class="mu sm">General information only. See our <a href="#disclaimer">Fitness Disclaimer</a>.</p><a class="btn" href="#library">Back to the library</a></div></div></article>`}
+function exV(){const e=X[arg],al=X[e.alt];return`<article class="ar">${crumb('<a href="#library">Exercise Library</a>',e.n)}<header class="ah"><p class="kick">${PL[e.pat]}</p><h1>${e.n}</h1></header><div class="ab"><aside><dl class="dl"><dt>Muscle group</dt><dd>${PL[e.pat]}</dd><dt>Equipment</dt><dd>${EQ[e.eq]}</dd><dt>Primary muscle</dt><dd>${MG[e.mg]}</dd>${e.sec.length?`<dt>Also works</dt><dd>${e.sec.map(m=>MG[m]).join(", ")}</dd>`:""}<dt>Level</dt><dd>${LV[e.l]}</dd><dt>Suitable for</dt><dd>${e.home?"Home and gym":"Gym"}</dd><dt>Suggested</dt><dd>${dose(e)}</dd></dl></aside><div class="prose"><h2>How to do it</h2><p>${e.d}</p><p>Move with control, breathe steadily, and stop if anything hurts.</p><h2>Common mistakes</h2><ul>${MIS[e.pat].map(m=>`<li>${m}</li>`).join("")}</ul>${al?`<h2>Alternative</h2><p><a href="#ex-${al.id}">${al.n}</a> is a good alternative if this feels too hard, or if you want some variety.</p>`:""}<p class="mu sm">General information only. See our <a href="#disclaimer">Fitness Disclaimer</a>.</p><a class="btn" href="#library">Back to the library</a></div></div></article>`}
 const pg=(t,b)=>doc(t,b);
 function aboutV(){return pg("About YourWeek Fitness",`<p>YourWeek Fitness is a free website for building a realistic weekly workout routine and learning the basics of fitness. It has three parts: a <a href="#planner">Workout Planner</a>, a library of <a href="#guides">fitness guides</a> and an <a href="#library">Exercise Library</a>.</p><h3>Why it exists</h3><p>Many beginners struggle to turn good intentions into a weekly schedule. The site aims to make that easier, and to explain the ideas behind the plan in plain language.</p><h3>How the planner works</h3><p>You tell the planner your goals, experience, available days, session length, location, equipment, preferred exercise types and anything you want to avoid. It then applies a set of programming rules to choose sessions and exercises, spaces out harder days, and adds recovery days. The plan is saved only on your own device.</p><h3>What it is not</h3><p>The plans are generated by rules in software. They have not been reviewed by a doctor or personal trainer, and they are not medical advice. Please read the <a href="#disclaimer">Fitness Disclaimer</a> and our <a href="#editorial">Editorial Policy</a>. Questions? Visit the <a href="#contact">Contact page</a>.</p>`)}
 function contactV(){return pg("Contact us",`<p>Questions, corrections or feedback are welcome. Fill in the form and it will open your email app with the message ready to send.</p><form id="cf" novalidate><div class="fld"><label for="cn">Name</label><input id="cn" required autocomplete="name"></div><div class="fld"><label for="ce">Email</label><input id="ce" type="email" required autocomplete="email"></div><div class="fld"><label for="cs">Subject</label><input id="cs" required></div><div class="fld"><label for="cm">Message</label><textarea id="cm" rows="5" required></textarea></div><button class="btn" type="submit">Send message</button><p id="cst" class="sm" role="status"></p></form>`)}
